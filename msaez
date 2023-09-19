@@ -1,0 +1,7 @@
+forEach: BoundedContext
+fileName: .msaez
+path: {{name}}/.
+---
+{
+    "URL": www.msaez.io/{{URL}}
+}

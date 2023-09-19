@@ -1,0 +1,83 @@
+forEach: Relation
+fileName: {{target.aggregate.nameCamelCase}}-open-api.yaml
+except: {{contexts.except}}
+ifDuplicated: merge
+---
+paths:
+{{#contexts.command}}
+  /{{aggregate.namePlural}}/{id}/{{controllerInfo.apiPath}}:
+    summary: {{name}} operation on {{aggregate.namePlural}}
+    get:
+      parameters:
+      {{#fieldDescriptors}}
+      - name: {{nameCamelCase}}
+        description: {{namePascalCase}}
+        schema:
+          type: {{map @root.contexts.mappings className}}
+        in: query
+        required: false
+      {{/fieldDescriptors}}
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/{{aggregate.namePascalCase}}'
+              examples:
+                1:
+                  value:
+                  {{#aggregate.aggregateRoot.fieldDescriptors}}
+                    {{name}}: {{map @root.contexts.examples className}}
+                  {{/aggregate.aggregateRoot.fieldDescriptors}}
+          description: {{namePascalCase}} Operation
+      operationId: {{namePascalCase}}
+      summary: {{namePascalCase}}
+      description: {{namePascalCase}}
+{{/contexts.command}}
+
+<function>
+ 
+    let isGetInvocation = ((this.source._type.endsWith("Command") || this.source._type.endsWith("Policy")) && (this.target._type.endsWith("View") || this.target._type.endsWith("Aggregate")))
+    let isPostInvocation = ((this.source._type.endsWith("Event") || this.source._type.endsWith("Policy")) && this.target._type.endsWith("Command"))
+    let isExternalInvocation = (this.source.boundedContext.name != this.target.boundedContext.name)
+
+    this.contexts.except = !(isExternalInvocation && isPostInvocation)
+    this.contexts.command = this.target
+
+    this.contexts.mappings = [
+      {
+        "if":['Double', 'double', 'BigDecimal', 'float'],
+        "then":'number'
+      },
+      {
+        "if":['Integer', 'integer', 'Long', 'long'],
+        "then": 'integer'
+      },
+      {
+        "if":['String'],
+        "then": 'string'
+      },
+      {
+        "default": 'string'
+      }
+    ]
+
+    this.contexts.examples = [
+      {
+        "if":['Double', 'double', 'BigDecimal', 'float'],
+        "then":1.1
+      },
+      {
+        "if":['Integer', 'integer', 'Long', 'long'],
+        "then": 1
+      },
+      {
+        "if":['String'],
+        "then": 'A string'
+      },
+      {
+        "default": 'value'
+      }
+    ]
+
+</function>
