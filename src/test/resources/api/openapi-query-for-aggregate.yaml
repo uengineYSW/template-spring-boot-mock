@@ -1,84 +1,84 @@
-forEach: Relation
-fileName: {{target.aggregate.nameCamelCase}}-open-api.yaml
-except: {{contexts.except}}
-ifDuplicated: merge
----
-paths:
-{{#contexts.query}}
-  /{{aggregate.namePlural}}/search/{{nameCamelCase}}:
-    summary: {{nameCamelCase}} query on {{aggregate.namePlural}}
-    get:
-      parameters:
-      {{#queryParameters}}
-      - name: {{nameCamelCase}}
-        description: {{namePascalCase}}
-        schema:
-          type: {{map @root.contexts.mappings className}}
-        in: query
-        required: false
-      {{/queryParameters}}
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/{{aggregate.namePascalCase}}'
-              examples:
-                1:
-                  value:
-                  {{#aggregate.aggregateRoot.fieldDescriptors}}
-                    {{name}}: {{map @root.contexts.examples className}}
-                  {{/aggregate.aggregateRoot.fieldDescriptors}}
-          description: {{namePascalCase}} Query
-      operationId: {{namePascalCase}}
-      summary: {{namePascalCase}}
-      description: {{namePascalCase}}
-{{/contexts.query}}
+# forEach: Relation
+# fileName: {{target.aggregate.nameCamelCase}}-open-api.yaml
+# except: {{contexts.except}}
+# ifDuplicated: merge
+# ---
+# paths:
+# {{#contexts.query}}
+#   /{{aggregate.namePlural}}/search/{{nameCamelCase}}:
+#     summary: {{nameCamelCase}} query on {{aggregate.namePlural}}
+#     get:
+#       parameters:
+#       {{#queryParameters}}
+#       - name: {{nameCamelCase}}
+#         description: {{namePascalCase}}
+#         schema:
+#           type: {{map @root.contexts.mappings className}}
+#         in: query
+#         required: false
+#       {{/queryParameters}}
+#       responses:
+#         "200":
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/{{aggregate.namePascalCase}}'
+#               examples:
+#                 1:
+#                   value:
+#                   {{#aggregate.aggregateRoot.fieldDescriptors}}
+#                     {{name}}: {{map @root.contexts.examples className}}
+#                   {{/aggregate.aggregateRoot.fieldDescriptors}}
+#           description: {{namePascalCase}} Query
+#       operationId: {{namePascalCase}}
+#       summary: {{namePascalCase}}
+#       description: {{namePascalCase}}
+# {{/contexts.query}}
 
-<function>
+# <function>
  
-    let isGetInvocation = ((this.source._type.endsWith("Command") || this.source._type.endsWith("Policy")) && (this.target._type.endsWith("View") && this.target.dataProjection==("query-for-aggregate")))
-    let isPostInvcation = ((this.source._type.endsWith("Event") || this.source._type.endsWith("Policy")) && this.target._type.endsWith("Command"))
-    let isExternalInvocation = (this.source.boundedContext.name != this.target.boundedContext.name)
+#     let isGetInvocation = ((this.source._type.endsWith("Command") || this.source._type.endsWith("Policy")) && (this.target._type.endsWith("View") && this.target.dataProjection==("query-for-aggregate")))
+#     let isPostInvcation = ((this.source._type.endsWith("Event") || this.source._type.endsWith("Policy")) && this.target._type.endsWith("Command"))
+#     let isExternalInvocation = (this.source.boundedContext.name != this.target.boundedContext.name)
 
-    this.contexts.except = !(isExternalInvocation && isGetInvocation)
+#     this.contexts.except = !(isExternalInvocation && isGetInvocation)
 
-    this.contexts.query = this.target
+#     this.contexts.query = this.target
 
-    this.contexts.mappings = [
-      {
-        "if":['Double', 'double', 'BigDecimal', 'float'],
-        "then":'number'
-      },
-      {
-        "if":['Integer', 'integer', 'Long', 'long'],
-        "then": 'integer'
-      },
-      {
-        "if":['String'],
-        "then": 'string'
-      },
-      {
-        "default": 'string'
-      }
-    ]
+#     this.contexts.mappings = [
+#       {
+#         "if":['Double', 'double', 'BigDecimal', 'float'],
+#         "then":'number'
+#       },
+#       {
+#         "if":['Integer', 'integer', 'Long', 'long'],
+#         "then": 'integer'
+#       },
+#       {
+#         "if":['String'],
+#         "then": 'string'
+#       },
+#       {
+#         "default": 'string'
+#       }
+#     ]
 
-    this.contexts.examples = [
-      {
-        "if":['Double', 'double', 'BigDecimal', 'float'],
-        "then":1.1
-      },
-      {
-        "if":['Integer', 'integer', 'Long', 'long'],
-        "then": 1
-      },
-      {
-        "if":['String'],
-        "then": 'A string'
-      },
-      {
-        "default": 'value'
-      }
-    ]
+#     this.contexts.examples = [
+#       {
+#         "if":['Double', 'double', 'BigDecimal', 'float'],
+#         "then":1.1
+#       },
+#       {
+#         "if":['Integer', 'integer', 'Long', 'long'],
+#         "then": 1
+#       },
+#       {
+#         "if":['String'],
+#         "then": 'A string'
+#       },
+#       {
+#         "default": 'value'
+#       }
+#     ]
 
-</function>
+# </function>
