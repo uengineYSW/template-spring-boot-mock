@@ -17,7 +17,7 @@ info:
     url: https://opensource.org/licenses/MIT
 paths:
 {{#target.aggregate}}
-  /{{namePlural}}/aggregate:
+  {{namePlural}}/aggregate:
     summary: Global operations on {{namePlural}}
     get:
       tags:
