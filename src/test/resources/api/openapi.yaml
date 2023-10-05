@@ -17,7 +17,7 @@ info:
     url: https://opensource.org/licenses/MIT
 paths:
 {{#target.aggregate}}
-  /{{namePlural}}/aggregate:
+  /{{namePlural}}:
     summary: Global operations on {{namePlural}}
     get:
       tags:
@@ -40,7 +40,7 @@ paths:
           description: Get list of {{namePlural}}
       operationId: Get{{namePascalCase}}
       summary: Get list of {{namePlural}}
-  /{{namePlural}}/{id}/aggregate:
+  /{{namePlural}}/{id}:
     summary: Specific operation on {{namePlural}}
     get:
       parameters:
