@@ -3,6 +3,7 @@ fileName: {{target.aggregate.nameCamelCase}}-open-api.yaml
 except: {{contexts.except}}
 ifDuplicated: merge
 ---
+key: 'paths'
 paths:
 {{#contexts.command}}
   /{{aggregate.namePlural}}/{id}/{{controllerInfo.apiPath}}:
