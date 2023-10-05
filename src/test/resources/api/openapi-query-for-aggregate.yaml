@@ -5,7 +5,7 @@ ifDuplicated: merge
 ---
 paths:
 {{#contexts.query}}
-  {{aggregate.namePlural}}/search/{{nameCamelCase}}/query:
+  /{{aggregate.namePlural}}/search/{{nameCamelCase}}/query:
     summary: {{nameCamelCase}} query on {{aggregate.namePlural}}
     get:
       parameters:
