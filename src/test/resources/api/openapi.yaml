@@ -40,7 +40,7 @@ paths:
           description: Get list of {{namePlural}}
       operationId: Get{{namePascalCase}}
       summary: Get list of {{namePlural}}
-  /{{namePlural}}/{id}:
+  /{{namePlural}}/{id}/aggregate:
     summary: Specific operation on {{namePlural}}
     get:
       parameters:
