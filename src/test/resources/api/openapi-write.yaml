@@ -5,7 +5,7 @@ ifDuplicated: merge
 ---
 paths:
 {{#contexts.command}}
-  /{{aggregate.namePlural}}/{id}/{{controllerInfo.apiPath}}:
+  /{{aggregate.namePlural}}/{id}/{{controllerInfo.apiPath}}/command:
     summary: {{name}} operation on {{aggregate.namePlural}}
     get:
       parameters:
